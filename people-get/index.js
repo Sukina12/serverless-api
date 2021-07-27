@@ -1,28 +1,26 @@
 'use strict';
 
-const peopleModel = require ('./people.schema');
-const uuid = require('uuid').v4;
+const peopleModel = require('./people.schema');
 
 exports.handler = async (event) => {
   try {
     const id = event.pathParameters ? event.pathParameters.id : null;
-    let data; 
+    let data;
     if (id) {
-        data = await peopleModel.query('id').eq(id).exec();
-        data = data[0];
+      const results = await peopleModel.query('id').eq(id).exec();
+      data = results[0];
 
     } else {
-        
-        data = await peopleModel.scan().exec();
+      data = await peopleModel.scan().exec();
     }
     return {
-      statusCode :201,
-      body : JSON.stringify(data),
+      statusCode: 201,
+      body: JSON.stringify(data),
     }
   } catch (error) {
     return {
-      statusCode : 500,
-      error : error.message,
+      statusCode: 500,
+      error: error.message,
     }
   }
 }
