@@ -1,12 +1,11 @@
 'use strict';
 
 const peopleModel = require ('./people.schema');
-const uuid = require('uuid').v4;
 
 exports.handler = async (event) => {
   try {
+    const id = event.pathParameters ? event.pathParameters.id : null; 
     const {name,age,gender} = JSON.parse(event.body);
-    const id = uuid();
 
     let myData ={
       id:id,
@@ -15,12 +14,11 @@ exports.handler = async (event) => {
       gender:gender,
     }
 
-    const myRecord = new peopleModel (myData);
-    const data = await myRecord.save();
+    const updateRecord = await peopleModel.update (myData);
 
     return {
-      statusCode :201,
-      body : JSON.stringify(data),
+      statusCode :200,
+      body : JSON.stringify(updateRecord),
     }
   } catch (error) {
     return {

@@ -6,6 +6,7 @@ const peopleSchema = new dynamoose.Schema ({
   id: String,
   name : String,
   age : String,
+  gender:String,
 });
 
 let peopleModel = dynamoose.model ('people',peopleSchema);
